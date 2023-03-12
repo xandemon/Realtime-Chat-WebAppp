@@ -196,6 +196,88 @@ $border-color: rgba(0, 0, 0, 0.5);
           gap: 12px;
         }
       }
+
+      .chat-messages {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 100px);
+        background-color: palegreen;
+        overflow-y: scroll;
+
+        .message {
+          display: flex;
+          align-items: flex-end;
+          gap: 12px;
+          max-width: 60%;
+          margin: 8px;
+
+          img {
+            width: 25px;
+            height: 25px;
+          }
+
+          .user-message {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+
+            img {
+              max-width: 100%;
+              width: auto;
+              height: auto;
+              border-radius: 8px 8px 8px 0;
+            }
+
+            .txt-message {
+              display: flex;
+              flex-direction: column;
+              width: max-content;
+              padding: 4px 8px;
+              border-radius: 8px 8px 8px 0;
+              background: white;
+            }
+          }
+        }
+      }
+
+      .message-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        margin: 8px;
+        gap: 12px;
+
+        textarea {
+          resize: none;
+          width: 100%;
+          border-radius: 8px;
+          border-color: $border-color;
+          background-color: white;
+        }
+
+        label {
+          display: flex;
+          align-items: center;
+        }
+
+        input {
+          &[type="file"] {
+            display: none;
+          }
+        }
+
+        .send-btn {
+          @include flex-row-center();
+          border: none;
+          background: none;
+
+          img {
+            width: 24px;
+          }
+        }
+      }
     }
   }
 }

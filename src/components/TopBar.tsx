@@ -4,7 +4,7 @@ import { BsCameraVideoFill, BsThreeDots } from "react-icons/bs";
 const TopBar = () => {
   return (
     <div className="top-bar">
-      <span>Elon</span>
+      <span>Elony</span>
       <span className="top-bar-btns">
         <BsCameraVideoFill />
         <BsThreeDots />
