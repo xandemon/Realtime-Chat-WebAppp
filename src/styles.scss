@@ -10,10 +10,29 @@ $border-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
 }
+
 @mixin flex-row-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin small-devices {
+  @media screen and (max-width: 300px) {
+    @content;
+  }
+}
+
+@mixin mobile-devices {
+  @media screen and (max-width: 500px) {
+    @content;
+  }
+}
+
+@mixin tablet-devices {
+  @media screen and (max-width: 700px) {
+    @content;
+  }
 }
 
 * {
@@ -80,18 +99,25 @@ $border-color: rgba(0, 0, 0, 0.5);
 .main-chat-app-container {
   @include flex-row-center();
   min-height: 100vh;
+  max-width: 100%;
   background-color: $primary-background-color;
 
   .main-chat-app-wrapper {
     display: flex;
-    min-width: 500px;
+    // min-width: 480px;
     // min-height: 410px;
     width: 70vw;
     height: 80vh;
     background-color: white;
 
+    @include tablet-devices() {
+      width: 95vw;
+    }
+
     .sidebar {
+      position: relative;
       flex: 1;
+      background-color: antiquewhite;
 
       .profile-bar-container {
         display: flex;
@@ -109,14 +135,26 @@ $border-color: rgba(0, 0, 0, 0.5);
           .profile-avatar {
             width: 30px;
             height: 30px;
+
+            @include mobile-devices() {
+              display: none;
+            }
           }
         }
+
         .logout-btn {
           height: max-content;
           border: 1px solid $grayish-color;
           border-radius: 4px;
           padding: 4px 8px;
+          cursor: pointer;
           background-color: white;
+
+          @include tablet-devices() {
+            position: absolute;
+            left: 8px;
+            bottom: 8px;
+          }
         }
       }
 
@@ -130,11 +168,13 @@ $border-color: rgba(0, 0, 0, 0.5);
           border: 1px solid $border-color;
           border-radius: 12px;
         }
+
         .search-icon {
           position: absolute;
           left: 12px;
           top: 12px;
         }
+
         .search-results {
           display: flex;
           align-items: center;
@@ -143,11 +183,17 @@ $border-color: rgba(0, 0, 0, 0.5);
           padding: 8px 12px;
           border-radius: 0 0 8px 8px;
           background-color: rgba(128, 128, 128, 0.199);
+          cursor: pointer;
 
           .search-avatar {
             width: 40px;
             height: 40px;
+            @include small-devices() {
+              display: none;
+            }
           }
+
+          
         }
       }
 
@@ -157,6 +203,7 @@ $border-color: rgba(0, 0, 0, 0.5);
         gap: 12px;
         padding: 8px;
         margin: 4px 0;
+        cursor: pointer;
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.1);
@@ -170,9 +217,22 @@ $border-color: rgba(0, 0, 0, 0.5);
         .chat-info {
           display: flex;
           flex-direction: column;
+          overflow: hi;
 
           .user-name {
             font-weight: 600;
+            @include small-devices() {
+              display: none;
+            }
+          }
+
+          .msg-preview {
+            @include mobile-devices() {
+              display: none;
+            }
+            //   text-overflow: ellipsis;
+            //   overflow: hidden;
+            //   white-space: nowrap;
           }
         }
       }
@@ -192,6 +252,15 @@ $border-color: rgba(0, 0, 0, 0.5);
         background-color: darkgray;
 
         .top-bar-btns {
+          .video-call-btn {
+            cursor: pointer;
+          }
+          .more-options-btn {
+            cursor: pointer;
+          }
+        }
+
+        .top-bar-btns {
           display: flex;
           gap: 12px;
         }
@@ -201,14 +270,13 @@ $border-color: rgba(0, 0, 0, 0.5);
         display: flex;
         flex-direction: column;
         height: calc(100% - 100px);
-        background-color: palegreen;
+        background-color: white;
         overflow-y: scroll;
 
         .message {
           display: flex;
           align-items: flex-end;
           gap: 12px;
-          max-width: 60%;
           margin: 8px;
 
           img {
@@ -223,7 +291,7 @@ $border-color: rgba(0, 0, 0, 0.5);
             width: 100%;
 
             img {
-              max-width: 100%;
+              max-width: 60%;
               width: auto;
               height: auto;
               border-radius: 8px 8px 8px 0;
@@ -233,9 +301,28 @@ $border-color: rgba(0, 0, 0, 0.5);
               display: flex;
               flex-direction: column;
               width: max-content;
-              padding: 4px 8px;
+              padding: 4px 16px;
               border-radius: 8px 8px 8px 0;
-              background: white;
+              background: rgba(128, 128, 128, 0.25);
+            }
+          }
+
+          &.your-message {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+
+            .user-message {
+              align-items: flex-end;
+
+              img {
+                border-radius: 8px 8px 0 8px;
+              }
+
+              .txt-message {
+                color: white;
+                border-radius: 8px 8px 0 8px;
+                background-color: dodgerblue;
+              }
             }
           }
         }
@@ -246,20 +333,26 @@ $border-color: rgba(0, 0, 0, 0.5);
         justify-content: space-between;
         align-items: center;
         height: 50px;
-        margin: 8px;
+        padding: 8px 12px;
         gap: 12px;
 
-        textarea {
-          resize: none;
+        input {
           width: 100%;
+          height: 35px;
+          padding: 4px 8px;
           border-radius: 8px;
-          border-color: $border-color;
+          border-color: $grayish-color;
           background-color: white;
+        }
+
+        .emoji-btn {
+          cursor: pointer;
         }
 
         label {
           display: flex;
           align-items: center;
+          cursor: pointer;
         }
 
         input {
@@ -272,6 +365,7 @@ $border-color: rgba(0, 0, 0, 0.5);
           @include flex-row-center();
           border: none;
           background: none;
+          cursor: pointer;
 
           img {
             width: 24px;

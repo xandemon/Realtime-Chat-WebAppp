@@ -6,8 +6,8 @@ const TopBar = () => {
     <div className="top-bar">
       <span>Elony</span>
       <span className="top-bar-btns">
-        <BsCameraVideoFill />
-        <BsThreeDots />
+        <BsCameraVideoFill className="video-call-btn" />
+        <BsThreeDots className="more-options-btn" />
       </span>
     </div>
   );

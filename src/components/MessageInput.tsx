@@ -6,7 +6,10 @@ import sendBtn from "../assets/sendBtn.png";
 const MessageInput = () => {
   return (
     <div className="message-input">
-      <textarea className="text-input"></textarea>
+      <input type="text"
+        className="text-input"
+        placeholder="Type something ..."
+      />
       <BsEmojiLaughing size={24} className="emoji-btn" />
       <label htmlFor="upload-image">
         <BiImageAdd size={28} />
