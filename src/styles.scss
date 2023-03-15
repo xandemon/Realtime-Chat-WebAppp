@@ -50,7 +50,7 @@ $border-color: rgba(0, 0, 0, 0.5);
     @include flex-column-center();
     gap: 10px;
     min-width: 300px;
-    width: 60%;
+    // width: 60%;
     border-radius: 8px;
     padding: 8px 0;
     background-color: $secondary-background-color;
