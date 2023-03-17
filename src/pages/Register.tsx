@@ -5,7 +5,7 @@ import { auth, db, storage } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -26,8 +26,9 @@ const Register = () => {
       console.log("uploadTask");
 
       uploadTask.on(
+        "state_changed",
         (error) => {
-          setError(error);
+          setError(error.toString());
         },
         () => {
           // Handle successful uploads on complete
@@ -92,7 +93,7 @@ const Register = () => {
         <p>
           Already have an account?
           <br />
-          Login here!
+          <Link to="/login">Login here!</Link>
         </p>
       </div>
     </div>
