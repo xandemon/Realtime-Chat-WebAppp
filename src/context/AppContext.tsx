@@ -1,21 +1,23 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 
+//defining types and interfaces
 interface User {
   displayName: string;
   email: string;
   photoURL: string;
   uid: string;
 }
-
 interface AuthContextProps {
   currentUser: User | null;
 }
 
+//creating context which will be used in other components
 export const AuthContext = createContext<AuthContextProps>({
   currentUser: null,
 });
 
+//ContextProvider handles all the implementations and operations
 export const AuthContextProvider = ({
   children,
 }: {

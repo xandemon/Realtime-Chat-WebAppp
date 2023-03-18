@@ -27,7 +27,7 @@ const Login = () => {
         <p>
           Don't have an account?
           <br />
-          Register here!
+          <Link to="/register">Register here!</Link>
         </p>
       </div>
     </div>
