@@ -13,7 +13,7 @@ interface AuthContextProps {
 }
 
 //creating context which will be used in other components
-export const AuthContext = createContext<AuthContextProps>({
+export const TempAuthContext = createContext<AuthContextProps>({
   currentUser: null,
 });
 
@@ -43,9 +43,9 @@ export const AuthContextProvider = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <TempAuthContext.Provider value={{ currentUser }}>
       {children}
-    </AuthContext.Provider>
+    </TempAuthContext.Provider>
   );
 };
 

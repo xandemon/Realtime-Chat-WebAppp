@@ -12,7 +12,7 @@ const Register = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: any) => {
+  const createAccount = async (event: any) => {
     event.preventDefault();
     const displayName = event.target[0].value;
     const email = event.target[1].value;
@@ -52,7 +52,7 @@ const Register = () => {
     <div className="loginFormContainer">
       <div className="loginFormWrapper">
         <h2>Sandesh Chat App</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createAccount}>
           <input name="fullname" type="text" placeholder="Full Name" required />
           <input
             name="email"
