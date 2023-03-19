@@ -14,11 +14,11 @@ const ProfileBar = () => {
     <div className="profile-bar-container">
       <div className="profile-info">
         <img
-          src={loggedUser.photoURL}
+          src={loggedUser?.photoURL}
           alt="profile image"
           className="profile-avatar"
         />
-        <span>{loggedUser.displayName}</span>
+        <span>{loggedUser?.displayName}</span>
       </div>
       <button onClick={logOutAccount} className="logout-btn">
         Logout
