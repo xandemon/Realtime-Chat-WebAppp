@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import avatar3 from "../assets/avatar3.png";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 
-const Message = () => {
+const Message = ({ message }: any) => {
+  const loggedUser = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behaviour: "smooth" });
+  }, []);
+
   return (
-    <div className="message">
-      <img src={avatar3} alt="user avatar" />
+    <div
+      ref={ref}
+      className={`message ${
+        message.senderID === loggedUser.uid && "your-message"
+      }`}
+    >
+      <img
+        src={
+          message.senderID === loggedUser.uid
+            ? loggedUser.photoURL
+            : data.user.photoURL
+        }
+        alt="user avatar"
+      />
       <div className="user-message">
-        <img
-          src="https://images.pexels.com/photos/4974912/pexels-photo-4974912.jpeg?auto=compress&cs=tinysrgb&w=600"
-          alt=""
-        />
+        {message.img && <img src={message.img} alt="" />}
         <div className="txt-message">
-          <span>Hello</span>
+          <span>{message.text}</span>
           <span className="msg-date">Just now</span>
         </div>
       </div>

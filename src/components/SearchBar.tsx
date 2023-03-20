@@ -90,7 +90,14 @@ const SearchBar = () => {
         //   }
         // }
       }
-    } catch (err) {}
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        console.log(error);
+      }
+    }
+    setSearchedUser(null);
+    setSearchKeyword("");
   };
 
   return (
@@ -98,6 +105,7 @@ const SearchBar = () => {
       <input
         type="text"
         placeholder="Search users"
+        value={searchKeyword}
         className="search-input"
         onKeyDown={handleKey}
         onChange={(e) => {
