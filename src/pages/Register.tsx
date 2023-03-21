@@ -1,67 +1,50 @@
 import React, { useState } from "react";
-import "../styles.scss";
-import { FcAddImage } from "react-icons/fc";
-import { auth, db, storage } from "../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../firebase";
+import { FcAddImage } from "react-icons/fc";
+import "../styles.scss";
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const fullName = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-    const imageFile = e.target[3].files[0];
+  const createAccount = async (event: any) => {
+    event.preventDefault();
+    const displayName = event.target[0].value;
+    const email = event.target[1].value;
+    const password = event.target[2].value;
+    const imageFile = event.target[3].files[0];
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res.user);
-      const storageRef = ref(storage, fullName);
-      const uploadTask = uploadBytesResumable(storageRef, imageFile);
-      console.log("uploadTask");
+      console.log("New user registered!", res.user);
 
-      uploadTask.on(
-        "state_changed",
-        (error) => {
-          setError(error.toString());
-        },
-        () => {
-          // Handle successful uploads on complete
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            console.log("uploadTask");
-
-            await updateProfile(res.user, {
-              displayName: fullName,
-              photoURL: downloadURL,
-            });
-            console.log("uploadProfile");
-
-            //registering users in database with their details
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              displayName: fullName,
-              email,
-              photoURL: downloadURL,
-            });
-            console.log("setDoc");
-
-            //creating a new collection in database for chatUsers
-            await setDoc(doc(db, "chatUsers", res.user.uid), {});
-
-            navigate("/");
+      const storageRef = ref(storage, displayName);
+      await uploadBytesResumable(storageRef, imageFile).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          await updateProfile(res.user, {
+            displayName,
+            photoURL: downloadURL,
           });
-        }
-      );
+          await setDoc(doc(db, "users", res.user.uid), {
+            uid: res.user.uid,
+            displayName,
+            email,
+            photoURL: downloadURL,
+          });
+          await setDoc(doc(db, "userChats", res.user.uid), {});
+        });
+      });
+      navigate("/");
     } catch (err) {
       if (err instanceof Error) {
-        // setError(err.message);
-        // console.error(err.message);
+        setError(err.message);
       }
+      console.log(err);
     }
   };
 
@@ -69,7 +52,7 @@ const Register = () => {
     <div className="loginFormContainer">
       <div className="loginFormWrapper">
         <h2>Sandesh Chat App</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createAccount}>
           <input name="fullname" type="text" placeholder="Full Name" required />
           <input
             name="email"

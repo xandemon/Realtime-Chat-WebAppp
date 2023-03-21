@@ -1,22 +1,26 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
 import { signOut } from "firebase/auth";
 import avatar2 from "../assets/avatar2.png";
 import { auth } from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const ProfileBar = () => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    signOut(auth);
-    navigate("/login");
+  const loggedUser = useContext(AuthContext);
+  const logOutAccount = async () => {
+    await signOut(auth);
+    window.location.href = "/";
   };
   return (
     <div className="profile-bar-container">
       <div className="profile-info">
-        <img src={avatar2} alt="profile image" className="profile-avatar" />
-        <span>Sandesh</span>
+        <img
+          src={loggedUser?.photoURL}
+          alt="profile image"
+          className="profile-avatar"
+        />
+        <span>{loggedUser?.displayName}</span>
       </div>
-      <button onClick={handleLogout} className="logout-btn">
+      <button onClick={logOutAccount} className="logout-btn">
         Logout
       </button>
     </div>
